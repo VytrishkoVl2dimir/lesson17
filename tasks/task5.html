@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Home Work</title>
+</head>
+
+<body>
+	<h2>Задача 5</h2>
+	<h3>Умова задачі</h3>
+	<p>
+		Особиста бібліотека. Картотека домашньої бібліотеки:
+		дані книги:
+		- автори (піб, рік народження, короткий опис,)
+		- назва книги,
+		- жанр,
+		- видавництво (назва, реєстраційний номер, рік заснування).
+
+		Реалізувати розділи бібліотеки (спеціальна література, хобі, домашнє господарство і т.д.),
+		походження книги і наявність на даний час.
+		Організувати додавання/вилучення книг та вибір книг за назвою, за ПІБ автора, за видавництвом.
+	</p>
+
+	<h3>Розв'язок</h3>
+	<script>
+		//========================================================================================================================================================
+		class Author {
+			constructor({ firstName, surName, age, description }) {
+				this.firstName = firstName
+				this.surName = surName
+				this.age = age
+				this.description = description
+			}
+			get fullname() {
+				return this.firstName + ' ' + this.surName
+			}
+			set fullname(value) {
+				let split = value.split(' ')
+				this.firstName = split[0]
+				this.surName = split[1]
+			}
+			toString() {
+				return `Автор - ${this.fullname}, Рік народження- ${this.age}`
+			}
+		}
+		//========================================================================================================================================================
+		class Publisher {
+			constructor({ publisherName, accountNumber, ageEstablishment }) {
+				this.publisherName = publisherName
+				this.accountNumber = accountNumber
+				this.ageEstablishment = ageEstablishment
+			}
+			toString() {
+				return `Видавництво - ${this.publisherName}, Рік заснування- ${this.ageEstablishment}`
+			}
+		}
+		//========================================================================================================================================================
+		class Book {
+			constructor(initData) {
+				this.bookName = initData.bookName
+				this.genre = initData.genre
+
+				this.author = new Author(initData)
+				this.publisher = new Publisher(initData)
+			}
+			toString() {
+				return `Книга - ${this.bookName}, Жанр - ${this.genre}, ${this.author}, ${this.publisher}`
+			}
+		}
+		//========================================================================================================================================================
+		class MyLibrary {
+			constructor(initBookList) {
+				this.libraryBookList = initBookList
+			}
+			// Реєстрація книги
+			addBook(initBook) {
+				this.libraryBookList.push(initBook)
+			}
+			// Вилучення книги
+			removeBook(bookName) {
+				this.libraryBookList = this.libraryBookList.filter(book => book.bookName !== bookName)
+			}
+			// Групування по секціях
+			getSectionOfGenre(genre) {
+				return this.libraryBookList.filter(book => book.genre === genre)
+			}
+			// вибір книг за назвою
+			getFilterOfBookName(bookName) {
+				return this.libraryBookList.filter(book => book.bookName === bookName)
+			}
+			// вибір книг за видавництвом
+			getFilterOfPublisherName(publisherName) {
+				return this.libraryBookList.filter(book => book.publisher.publisherName === publisherName)
+			}
+			// вибір книг за автором
+			getFilterOfAuthorName(fullname) {
+				return this.libraryBookList.filter(book => book.author.fullname === fullname)
+			}
+			//наявність на даний час
+			getAvailabilityBook(bookName) {
+				return this.libraryBookList.some(book => book.bookName === bookName)
+			}
+
+			toString() {
+				return `Моя бібліотека: ${this.libraryBookList}`
+			}
+		}
+		//========================================================================================================================================================
+		const bookList = [
+			new Book({
+				bookName: 'Ігри, в які грають люди',
+				genre: 'психологія',
+				firstName: 'Ерік',
+				surName: 'Берн',
+				age: '45',
+				description: ' Відомий американський психолог і психіатр 20-го століття',
+				publisherName: 'Ранок',
+				accountNumber: '100',
+				ageEstablishment: '1956',
+			}),
+			new Book(
+				{
+					bookName: 'Мислення швидке й повільне',
+					genre: 'психологія',
+					firstName: 'Деніел',
+					surName: 'Канеман',
+					age: '89',
+					description: 'Психолог. Нобелівський лауріат',
+					publisherName: 'Наш формат',
+					accountNumber: '300',
+					ageEstablishment: '2005',
+				}
+			),
+			new Book(
+				{
+					bookName: 'Дикі інтер’єри. Красиві рослини в чудових просторах',
+					genre: 'домашнє господарство',
+					firstName: 'Хілтон',
+					surName: 'Картер',
+					age: '35',
+					description: 'стиліст інтер’єрів/рослин',
+					publisherName: 'ArtHuss',
+					accountNumber: '256',
+					ageEstablishment: '2005',
+				}
+			),
+			new Book(
+				{
+					bookName: 'Печворк та квілтинг',
+					genre: 'хобі',
+					firstName: 'Марія ',
+					surName: 'Кольска',
+					age: '25',
+					description: 'майстер по рукоділлю',
+					publisherName: 'ArtHuss',
+					accountNumber: '256',
+					ageEstablishment: '2005',
+				}
+			),
+		]
+		//========================================================================================================================================================
+		b1 = new MyLibrary(bookList)
+		document.write(`${b1}<br>`)
+		document.write(b1.getFilterOfAuthorName('Хілтон Картер'))
+
+		//========================================================================================================================================================
+	</script>
+	<style>
+		h2 {
+			color: #08368b;
+		}
+
+		h3 {
+			color: #06700f;
+		}
+	</style>
+</body>
+
+</html>

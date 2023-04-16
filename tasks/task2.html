@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Home Work</title>
+</head>
+
+<body>
+	<h2>Задачі 2</h2>
+	<h3>Умови задач</h3>
+	<p>
+		Створити службове авто (водій, марка, номер).
+		Створити клас таким чином, щоб можна було створити тільки один екземпляр цього класу.
+	</p>
+
+	<h3>Розв'язок</h3>
+	<script>
+		//========================================================================================================================================================
+		class Auto {
+			static autoObj
+			constructor(driver, brand, number) {
+				if (Auto.autoObj) return Auto.autoObj
+				this.driver = driver
+				this.brand = brand
+				this.number = number
+
+				Auto.autoObj = this
+			}
+			toString() {
+				return `
+				Водій - ${this.driver}<br>
+				Автомобіль - ${this.brand}<br>
+				Номер - ${this.number}<br>
+				`
+			}
+		}
+
+		a1 = new Auto('Іван', 'Audi', 'AX5544AX')
+		document.write(`${a1}<br>`)
+		a2 = new Auto('Петро', 'BMW', 'AX3301AX')
+		document.write(`${a2}<br>`)
+
+		//========================================================================================================================================================
+	</script>
+	<style>
+		h2 {
+			color: #08368b;
+		}
+
+		h3 {
+			color: #06700f;
+		}
+
+		ul {
+			margin: 0;
+		}
+	</style>
+</body>
+
+</html>

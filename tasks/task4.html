@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Home Work</title>
+</head>
+
+<body>
+	<h2>Задача 4</h2>
+	<h3>Умова задачі</h3>
+	<p>
+		Склад. База товарів, які зберігаються на складі:
+		назва товару, одиниця виміру, кількість, фірма виробник (назва, реєстраційний номер).
+		Організувати реєстрацію/відвантаження товарів, фільтрація за назвою товару, фільтрація за назвою фірми
+	</p>
+
+	<h2>Розв'язок</h2>
+	<script>
+		//========================================================================================================================================================
+		class Product {
+			constructor(initProduct) {
+				this.nameProduct = initProduct.nameProduct
+				this.quantity = initProduct.quantity
+				this.unit = initProduct.unit
+				this.manufacturer = new Manufacturer(initProduct)
+			}
+			toString() {
+				return `${this.nameProduct} - ${this.quantity} ${this.unit} ${this.manufacturer}`
+			}
+		}
+
+		//========================================================================================================================================================
+		class Manufacturer {
+			constructor({ brend, accountNumber }) {
+				this.brend = brend
+				this.accountNumber = accountNumber
+			}
+			toString() {
+				return `Виробник - ${this.brend}, Реєстр. № - ${this.accountNumber}`
+			}
+		}
+
+		//========================================================================================================================================================
+		class Warehouse {
+			constructor(productList) {
+				this.products = [...productList]
+			}
+
+			//реєстрація товару
+			addProduct(product) {
+				this.products.push(product)
+			}
+
+			//добавляння товару
+			addQuantityProduct(nameProduct, quantity) {
+				this.products.find(elem => elem.nameProduct === nameProduct).quantity += quantity
+			}
+
+			//відвантаження товару
+			shipmentProduct(nameProduct, quantity) {
+				for (const product of this.products) {
+					if (product.nameProduct === nameProduct) {
+						if (product.quantity < quantity) throw new Error('Операція неможлива')
+						product.quantity -= quantity
+					}
+				}
+			}
+
+			//фільтрація за назвою товару
+			getFilterForNameProduct(nameProduct) {
+				return this.products.filter(elem => elem.nameProduct === nameProduct)
+			}
+
+			//фільтрація за назвою фірми
+			getFilterForBrend(brend) {
+				return this.products.filter(elem => elem.manufacturer.brend === brend)
+			}
+
+			toString() {
+				return `${this.products}`
+			}
+		}
+
+		//========================================================================================================================================================
+		let productList = [
+			new Product({
+				nameProduct: 'Масло селянське',
+				quantity: 20,
+				unit: 'шт.',
+				brend: 'Органік Мілк',
+				accountNumber: 125
+			}),
+			new Product({
+				nameProduct: 'Сир голандський',
+				quantity: 100,
+				unit: 'шт.',
+				brend: 'Органік Мілк',
+				accountNumber: 125
+			}),
+			new Product({
+				nameProduct: 'Бринза',
+				quantity: 50,
+				unit: 'шт.',
+				brend: 'Яготинський МЗ',
+				accountNumber: 250
+			}),
+			new Product({
+				nameProduct: 'Сир сулугуні',
+				quantity: 86,
+				unit: 'шт.',
+				brend: 'Яготинський МЗ',
+				accountNumber: 250
+			}),
+			new Product({
+				nameProduct: 'Молоко 2,5%',
+				quantity: 500,
+				unit: 'шт.',
+				brend: 'Органік Мілк',
+				accountNumber: 125
+			}),
+			new Product({
+				nameProduct: 'Сметана',
+				quantity: 60,
+				unit: 'шт.',
+				brend: 'Світанок',
+				accountNumber: 860
+			}),
+		]
+		//========================================================================================================================================================
+		p1 = new Warehouse(productList)
+		document.write(`${p1}<br>`)
+		document.write(`${p1.getFilterForNameProduct('Сметана')}<br>`)
+		// document.write(`${p1.getFilterForBrend('Органік Мілк')}<br>`)
+		p1.shipmentProduct('Сметана', 20)
+		document.write(`${p1.getFilterForNameProduct('Сметана')}<br>`)
+		p1.addQuantityProduct('Сметана', 20)
+		document.write(`${p1.getFilterForNameProduct('Сметана')}<br>`)
+		p1.addProduct(new Product({
+			nameProduct: 'Олія',
+			quantity: 30,
+			unit: 'шт.',
+			brend: 'Запорізький МЕЗ',
+			accountNumber: 580
+		}))
+		document.write(`${p1}<br>`)
+		document.write(`${p1.getFilterForNameProduct('Олія')}<br>`)
+
+		//========================================================================================================================================================
+
+	</script>
+	<style>
+		h2 {
+			color: #08368b;
+		}
+
+		h3 {
+			color: #06700f;
+		}
+
+		h4 {
+			color: #4e0670;
+		}
+	</style>
+</body>
+
+</html>
